@@ -35,6 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var screen_1_loop_limit = 0;
   var screen_1_no = -1;
   var selected_screen_1_variable = [];
+  var screen_2_selected_text = "";
+  var children = <Widget>[];
   var a = [
     'Text 1',
     'Text 2',
@@ -68,45 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String selected_screen_1_text = '';
   bool shouldDisplay = false;
-
-  Widget screen1TextWidget() {
-    screen_1_no++;
-    if (screen_1_no > 3) {
-      screen_1_no = 0;
-    }
-    return (Padding(
-        padding: EdgeInsets.only(top: 20.0, left: 8.0),
-        child: SizedBox(
-            height: 200,
-            width: 400,
-            child: ElevatedButton(
-                onPressed: () {
-                  var savedVal = setState(() {
-                    // Problem is here
-                    // screen_1_list = [A, B, C, D]
-                    // screen_1_no = 3
-                    selected_screen_1_text = screen_1_list[screen_1_no];
-
-                    if (selected_screen_1_text == 'A') {
-                      selected_screen_1_variable = a;
-                    } else if (selected_screen_1_text == 'B') {
-                      selected_screen_1_variable = b;
-                    } else if (selected_screen_1_text == 'C') {
-                      selected_screen_1_variable = c;
-                    } else {
-                      selected_screen_1_variable = d;
-                    }
-
-                    print(screen_1_no);
-                    screen_1_loop_limit = selected_screen_1_variable.length;
-                    shouldDisplay = !shouldDisplay;
-                  });
-                },
-                child: Text(
-                  screen_1_list[screen_1_no],
-                  style: TextStyle(fontSize: 50),
-                )))));
-  }
+  bool shouldDisplay_2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 70,
               ),
             ]),
-            backgroundColor: Color.fromARGB(255, 16, 219, 155)),
+            backgroundColor: const Color.fromARGB(255, 16, 219, 155)),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -134,23 +98,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 8.0),
+                      padding: const EdgeInsets.only(top: 20.0, left: 8.0),
                       child: SizedBox(
                           height: 200,
                           width: 400,
                           child: ElevatedButton(
                               onPressed: () {
-                                selected_screen_1_variable = a;
-                                screen_1_loop_limit =
-                                    selected_screen_1_variable.length;
-                                shouldDisplay = !shouldDisplay;
+                                set_screen2_text('A');
                               },
-                              child: Text(
+                              child: const Text(
                                 'A',
                                 style: TextStyle(fontSize: 50),
                               )))),
                   Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 8.0),
+                      padding: const EdgeInsets.only(top: 20.0, left: 8.0),
                       child: SizedBox(
                           height: 200,
                           width: 400,
@@ -158,12 +119,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               onPressed: () {
                                 set_screen2_text('B');
                               },
-                              child: Text(
+                              child: const Text(
                                 'B',
                                 style: TextStyle(fontSize: 50),
                               )))),
                   Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 8.0),
+                      padding: const EdgeInsets.only(top: 20.0, left: 8.0),
                       child: SizedBox(
                           height: 200,
                           width: 400,
@@ -171,12 +132,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               onPressed: () {
                                 set_screen2_text('C');
                               },
-                              child: Text(
+                              child: const Text(
                                 'C',
                                 style: TextStyle(fontSize: 50),
                               )))),
                   Padding(
-                      padding: EdgeInsets.only(top: 20.0, left: 8.0),
+                      padding: const EdgeInsets.only(top: 20.0, left: 8.0),
                       child: SizedBox(
                           height: 200,
                           width: 400,
@@ -184,16 +145,15 @@ class _MyHomePageState extends State<MyHomePage> {
                               onPressed: () {
                                 set_screen2_text('D');
                               },
-                              child: Text(
+                              child: const Text(
                                 'D',
                                 style: TextStyle(fontSize: 50),
                               )))),
                 ],
               ),
             ),
-            Container(
-              child: VerticalDivider(),
-            ),
+
+            const VerticalDivider(),
 
             // Second screen
             SingleChildScrollView(
@@ -205,77 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        for (var i = 0; i < screen_1_loop_limit; i++)
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                shouldDisplay = true;
-                              });
-                            },
-                            child: shouldDisplay
-                                ? Text(
-                                    selected_screen_1_variable[i],
-                                    style: TextStyle(fontSize: 50),
-                                  )
-                                : Text(""),
-                          )
-                      ])
-                  // SizedBox(
-                  //   height: 60,
-                  //   width: 300,
-                  //   child: TextButton(
-                  //       onPressed: () {},
-                  //       child: shouldDisplay
-                  //           ? Text(
-                  //               'Text 1',
-                  //               style: TextStyle(fontSize: 50),
-                  //             )
-                  //           : Spacer()
-                  //       // style: ElevatedButton.styleFrom(
-                  //       //   minimumSize: Size.fromHeight(40),
-                  //       // )
-                  //       ),
-                  // ),
-                  // TextButton(
-                  //   onPressed: () {},
-                  //   child: shouldDisplay
-                  //       ? Text(
-                  //           'Text 2',
-                  //           style: TextStyle(fontSize: 50),
-                  //         )
-                  //       : Spacer(),
-                  // )
-                  // TextButton(
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       'Text 3',
-                  //       style: TextStyle(fontSize: 50),
-                  //     )),
-                  // TextButton(
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       'Text 4',
-                  //       style: TextStyle(fontSize: 50),
-                  //     )),
-                  // TextButton(
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       'Text 5',
-                  //       style: TextStyle(fontSize: 50),
-                  //     )),
-                  // TextButton(
-                  //     onPressed: () {},
-                  //     child: Text(
-                  //       'Text 6',
-                  //       style: TextStyle(fontSize: 50),
-                  //     )),
-                  // ],
-                  ),
+                      children: children)),
             ),
-            Container(
-              child: VerticalDivider(),
-            ),
+
+            const VerticalDivider(),
 
             // Third screen
             Column(
@@ -284,10 +177,12 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 TextButton(
                     onPressed: () {},
-                    child: Text(
-                      'Text 3',
-                      style: TextStyle(fontSize: 50),
-                    ))
+                    child: shouldDisplay_2
+                        ? Text(
+                            screen_2_selected_text,
+                            style: const TextStyle(fontSize: 50),
+                          )
+                        : const Text(""))
               ],
             ),
           ],
@@ -306,7 +201,35 @@ class _MyHomePageState extends State<MyHomePage> {
       selected_screen_1_variable = d;
     }
     screen_1_loop_limit = selected_screen_1_variable.length;
+    // print(selected_screen_1_text);
+    // print(screen_1_loop_limit);
     shouldDisplay = !shouldDisplay;
+
+    // Resetting children to empty list each time the user clicks a button
+    children = <Widget>[];
+
+    for (var i = 0; i < screen_1_loop_limit; i++) {
+      children.add(TextButton(
+        onPressed: () {
+          screen_2_selected_text = selected_screen_1_variable[i];
+          shouldDisplay_2 = !shouldDisplay_2;
+          // print(screen_2_selected_text);
+          setState(() {
+            // shouldDisplay = true;
+          });
+        },
+        child: shouldDisplay
+            ? Text(
+                selected_screen_1_variable[i],
+                style: const TextStyle(fontSize: 50),
+              )
+            : const Text(""),
+      ));
+    }
+
+    setState(() {});
+
+    // print(children);
   }
 }
 
